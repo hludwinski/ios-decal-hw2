@@ -22,8 +22,11 @@ class ViewController: UIViewController {
     // TODO: This looks like a good place to add some data structures.
     //       One data structure is initialized below for reference.
     var someDataStructure: [String] = [""]
-    var compute: [String] = [""]
-    var curr: [String] = [""]
+    var compute: [String] = []
+    var num1 = 0
+    var num2 = 0
+    var op = ""
+    var current = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,13 +55,15 @@ class ViewController: UIViewController {
     
     // TODO: Ensure that resultLabel gets updated.
     //       Modify this one or create your own.
-    func updateResultLabel(_ content: [String]) {
-        var result = ""
-        for s in content{
-            result+=s
-        }
-        resultLabel.text = result
-        print("Update me like one of those PCs")
+    func updateResultLabel(_ content: String) {
+//        var result = ""
+//        for s in content{
+//            result+=s
+//            if (result.characters.count == 7){
+//                break
+//            }
+//        }
+        resultLabel.text = content
     }
     
     
@@ -119,24 +124,35 @@ class ViewController: UIViewController {
         guard Int(sender.content) != nil else { return }
         print("The number \(sender.content) was pressed")
         // Fill me in!
-        compute.append(sender.content)
-        curr.append(sender.content)
-        updateResultLabel(curr)
+        
+        if (current.characters.count < 7){
+            compute.append(sender.content)
+            current += sender.content
+            updateResultLabel(current)
+        }
     }
     
     // REQUIRED: The responder to an operator button being pressed.
     func operatorPressed(_ sender: CustomButton) {
         // Fill me in!
         print("The operator \(sender.content) was pressed")
-        curr = [""]
+        current = ""
         if (sender.content == "="){
             compute.append(sender.content)
-            let a = calculate()
-            print(a)
-            updateResultLabel([a])
-            print(compute)
-            compute = [""]
+            let result = calculate()
+            updateResultLabel(result)
+            compute = [result]
         }
+        else if(sender.content == "C"){
+            compute = []
+            current = ""
+            updateResultLabel("0")
+        }
+//        else if(sender.content == "+/-"){
+//            compute = [""]
+//            curr = [""]
+//            updateResultLabel(["0"])
+//        }
         else{
             compute.append(sender.content)
         }
@@ -149,6 +165,7 @@ class ViewController: UIViewController {
         if (numbers.contains(sender.content)){
             numberPressed(sender)
         }
+        
         else{
             operatorPressed(sender)
         }

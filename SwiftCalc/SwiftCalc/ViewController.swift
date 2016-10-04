@@ -22,7 +22,8 @@ class ViewController: UIViewController {
     // TODO: This looks like a good place to add some data structures.
     //       One data structure is initialized below for reference.
     var someDataStructure: [String] = [""]
-    
+    var compute: [String] = [""]
+    var curr: [String] = [""]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +52,12 @@ class ViewController: UIViewController {
     
     // TODO: Ensure that resultLabel gets updated.
     //       Modify this one or create your own.
-    func updateResultLabel(_ content: String) {
+    func updateResultLabel(_ content: [String]) {
+        var result = ""
+        for s in content{
+            result+=s
+        }
+        resultLabel.text = result
         print("Update me like one of those PCs")
     }
     
@@ -59,6 +65,27 @@ class ViewController: UIViewController {
     // TODO: A calculate method with no parameters, scary!
     //       Modify this one or create your own.
     func calculate() -> String {
+        var op = ""
+        var int1 = 0
+        var int2 = 0
+        var curr = ""
+        for s in compute{
+            if (s == "-" || s == "+" || s=="*" || s=="/"){
+                op = s
+                int1 = Int(curr)!
+                curr = ""
+            }
+            else if (s == "="){
+                int2 = Int(curr)!
+                if int2 == 0 && op == "/"{
+                    return "Error"
+                }
+                return String(intCalculate(a: int1, b: int2, operation: op))
+            }
+            else{
+                curr += s
+            }
+        }
         return "0"
     }
     
@@ -66,7 +93,18 @@ class ViewController: UIViewController {
     //       Modify this one or create your own.
     func intCalculate(a: Int, b:Int, operation: String) -> Int {
         print("Calculation requested for \(a) \(operation) \(b)")
-        return 0
+        switch operation {
+            case "+":
+                return a+b
+            case "-":
+                return a-b
+            case "*":
+                return a*b
+            case "/":
+                return a/b
+            default:
+                return 0
+        }
     }
     
     // TODO: A general calculate method for doubles
@@ -81,16 +119,39 @@ class ViewController: UIViewController {
         guard Int(sender.content) != nil else { return }
         print("The number \(sender.content) was pressed")
         // Fill me in!
+        compute.append(sender.content)
+        curr.append(sender.content)
+        updateResultLabel(curr)
     }
     
     // REQUIRED: The responder to an operator button being pressed.
     func operatorPressed(_ sender: CustomButton) {
         // Fill me in!
+        print("The operator \(sender.content) was pressed")
+        curr = [""]
+        if (sender.content == "="){
+            compute.append(sender.content)
+            let a = calculate()
+            print(a)
+            updateResultLabel([a])
+            print(compute)
+            compute = [""]
+        }
+        else{
+            compute.append(sender.content)
+        }
     }
     
     // REQUIRED: The responder to a number or operator button being pressed.
     func buttonPressed(_ sender: CustomButton) {
        // Fill me in!
+        let numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+        if (numbers.contains(sender.content)){
+            numberPressed(sender)
+        }
+        else{
+            operatorPressed(sender)
+        }
     }
     
     // IMPORTANT: Do NOT change any of the code below.

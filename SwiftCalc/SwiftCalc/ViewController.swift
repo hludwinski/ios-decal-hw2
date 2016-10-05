@@ -127,7 +127,9 @@ class ViewController: UIViewController {
         guard Int(sender.content) != nil else { return }
         print("The number \(sender.content) was pressed")
         // Fill me in!
-        
+//        if(Int(current)! == 0){
+//            current = "0"
+//        }
         if (current.characters.count < 7){
             //compute.append(sender.content)
             current += sender.content

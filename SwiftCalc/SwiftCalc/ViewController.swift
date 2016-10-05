@@ -26,7 +26,6 @@ class ViewController: UIViewController {
     var prev = ""
     var current = ""
     var second = false
-    var double = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,13 +55,6 @@ class ViewController: UIViewController {
     // TODO: Ensure that resultLabel gets updated.
     //       Modify this one or create your own.
     func updateResultLabel(_ content: String) {
-//        var result = ""
-//        for s in content{
-//            result+=s
-//            if (result.characters.count == 7){
-//                break
-//            }
-//        }
         resultLabel.text = content
     }
     
@@ -74,32 +66,6 @@ class ViewController: UIViewController {
             return resultLabel.text!
         }
         return String(calculate(a: prev, b:current, operation: symbol))
-        
-        //return String(intCalculate(a:Int(prev)!, b: Int(current)!, operation: symbol))
-        
-//        var op = ""
-//        var int1 = 0
-//        var int2 = 0
-//        var curr = ""
-//        for s in compute{
-//            if (s == "-" || s == "+" || s=="*" || s=="/"){
-//                int1 = Int(curr)!
-//                op = s
-//                curr = ""
-//            }
-//            else if (s == "="){
-//                int2 = Int(curr)!
-//                if int2 == 0 && op == "/"{
-//                    return "Error"
-//                }
-//                return String(intCalculate(a: int1, b: int2, operation: op))
-//            }
-//            else{
-//                curr += s
-//            }
-//        }
-//        int2 = Int(curr)!
-//        return String(intCalculate(a: int1, b: int2, operation: op))
     }
     
     // TODO: A simple calculate method for integers.
@@ -119,18 +85,6 @@ class ViewController: UIViewController {
             return 0
         }
     }
-    
-    // TODO: A simple calculate method for integers.
-    //       Modify this one or create your own.
-//    func calculate(input: String) -> String {
-//        let p = Int(prev)!
-//        let c = Int(current)!
-//        if(c == 0 && symbol == "/"){
-//            return "Error"
-//        }
-//        if
-//        return String(intCalculate(a: p, b: c, operation: symbol))
-    //}
     
     // TODO: A general calculate method for doubles
     //       Modify this one or create your own.
@@ -185,7 +139,6 @@ class ViewController: UIViewController {
             second = false
         }
         else if(sender.content == "%"){
-            double = true
             current = String(Double(current)!/100)
             updateResultLabel(current)
         }
@@ -194,7 +147,6 @@ class ViewController: UIViewController {
             updateResultLabel(current)
         }
         else if(sender.content == "."){
-            double = true
             current += "."
             updateResultLabel(current)
         }
@@ -223,7 +175,6 @@ class ViewController: UIViewController {
         if (numbers.contains(sender.content)){
             numberPressed(sender)
         }
-        
         else{
             operatorPressed(sender)
         }

@@ -26,6 +26,7 @@ class ViewController: UIViewController {
     var prev = ""
     var current = ""
     var second = false
+    var double = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,15 +70,12 @@ class ViewController: UIViewController {
     // TODO: A calculate method with no parameters, scary!
     //       Modify this one or create your own.
     func calculate() -> String {
-        print(prev)
-        print(current)
-        if (symbol == ""){
+        if (symbol == "" || current == "" || prev == ""){
             return resultLabel.text!
         }
-        if(current == "" || prev == ""){
-            return resultLabel.text!
-        }
-        return String(intCalculate(a:Int(prev)!, b: Int(current)!, operation: symbol))
+        return String(calculate(a: prev, b:current, operation: symbol))
+        
+        //return String(intCalculate(a:Int(prev)!, b: Int(current)!, operation: symbol))
         
 //        var op = ""
 //        var int1 = 0
@@ -138,7 +136,20 @@ class ViewController: UIViewController {
     //       Modify this one or create your own.
     func calculate(a: String, b:String, operation: String) -> Double {
         print("Calculation requested for \(a) \(operation) \(b)")
-        return 0.0
+        let c = Double(a)!
+        let d = Double(b)!
+        switch operation {
+            case "+":
+                return c+d
+            case "-":
+                return c-d
+            case "*":
+                return c*d
+            case "/":
+                return c/d
+            default:
+                return 0
+        }
     }
     
     // REQUIRED: The responder to a number button being pressed.
@@ -158,44 +169,47 @@ class ViewController: UIViewController {
     func operatorPressed(_ sender: CustomButton) {
         // Fill me in!
         print("The operator \(sender.content) was pressed")
-        //current = ""
         if (sender.content == "="){
-            //compute.append(sender.content)
             let result = calculate()
             updateResultLabel(result)
-            //compute = [result]
             prev = result
             current = ""
+            symbol = ""
             second = false
         }
         else if(sender.content == "C"){
-            //compute = []
             current = ""
             prev = ""
+            symbol = ""
             updateResultLabel("0")
             second = false
         }
         else if(sender.content == "%"){
+            double = true
             current = String(Double(current)!/100)
             updateResultLabel(current)
         }
         else if(sender.content == "+/-"){
-            current = String(Int(current)! * (-1))
+            current = String(Double(current)! * (-1))
+            updateResultLabel(current)
+        }
+        else if(sender.content == "."){
+            double = true
+            current += "."
             updateResultLabel(current)
         }
         else{
             if(!second){
                 second = true
-                prev = current
-                print("prev" + prev)
+                if(current != ""){
+                    prev = current
+                }
             }
             else{
                 let result = calculate()
                 updateResultLabel(result)
-                //compute = [result]
                 prev = result
             }
-            //compute.append(sender.content)
             current = ""
             symbol = sender.content
             

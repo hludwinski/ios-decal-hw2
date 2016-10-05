@@ -55,7 +55,23 @@ class ViewController: UIViewController {
     // TODO: Ensure that resultLabel gets updated.
     //       Modify this one or create your own.
     func updateResultLabel(_ content: String) {
-        resultLabel.text = content
+//        while(content.characters.count > 0 && content[0] == "0"){
+//            content.remove(0)
+//        }
+        if(content != "." && content != "0"){
+            let number = Double(content)!
+            var result = ""
+            if(number - Double(Int(number)) == 0){
+                result = String(Int(number))
+            }
+            else{
+                result = content
+            }
+            resultLabel.text = result
+        }
+        else{
+            resultLabel.text = content
+        }
     }
     
     
